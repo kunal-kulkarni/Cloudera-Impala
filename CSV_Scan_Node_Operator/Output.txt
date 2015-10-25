@@ -1,0 +1,849 @@
+Starting Impala Shell without Kerberos authentication
+Connected to localhost.localdomain:21000
+Server version: impalad version 1.4.0-cdh5-INTERNAL DEBUG (build e801bd8c0d134e783c2313c7dd422a5ad06591af)
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from extest
+[?1034hWelcome to the Impala shell. Press TAB twice to see a list of available commands.
+
+Copyright (c) 2012 Cloudera, Inc. All rights reserved.
+
+(Shell build version: Impala Shell v1.4.0-cdh5-INTERNAL (e801bd8) built on Thu Aug 21 20:57:25 PDT 2014)
+[localhost.localdomain:21000] >                               >                               > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=0B VCores=1                                |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.extest                                                                     |
+|                                                                                    |
+| 01:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 00:CSV SCAN NODE [default.extest]                                                  |
+|    partitions=1/1 size=0B                                                          |
++------------------------------------------------------------------------------------+
+Returned 8 row(s) in 0.01s
+Query: select * from extest
+[localhost.localdomain:21000] > +----+-------+------------+-------------------------------+-------------------------+
+| id | col_1 | col_2      | col_3                         | col_4                   |
++----+-------+------------+-------------------------------+-------------------------+
+| 1  | true  | NULL       | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
++----+-------+------------+-------------------------------+-------------------------+
+Returned 100 row(s) in 0.20s
+Query: explain select * from extest
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               >                               >                               >                               > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=0B VCores=1                                |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.extest                                                                     |
+|                                                                                    |
+| 01:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 00:CSV SCAN NODE [default.extest]                                                  |
+|    partitions=1/1 size=0B                                                          |
++------------------------------------------------------------------------------------+
+Returned 8 row(s) in 0.01s
+Query: select * from extest
+[localhost.localdomain:21000] > +----+-------+------------+-------------------------------+-------------------------+
+| id | col_1 | col_2      | col_3                         | col_4                   |
++----+-------+------------+-------------------------------+-------------------------+
+| 1  | true  | NULL       | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
++----+-------+------------+-------------------------------+-------------------------+
+Returned 100 row(s) in 0.20s
+Query: select * from extest where id=1
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > +----+-------+---------+---------------------+--------------------+
+| id | col_1 | col_2   | col_3               | col_4              |
++----+-------+---------+---------------------+--------------------+
+| 1  | true  | NULL    | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
++----+-------+---------+---------------------+--------------------+
+Returned 20 row(s) in 0.18s
+Query: explain select col_2  from extest
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=0B VCores=1                                |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.extest                                                                     |
+|                                                                                    |
+| 01:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 00:CSV SCAN NODE [default.extest]                                                  |
+|    partitions=1/1 size=0B                                                          |
++------------------------------------------------------------------------------------+
+Returned 8 row(s) in 0.01s
+Query: select col_2  from extest
+[localhost.localdomain:21000] > +------------+
+| col_2      |
++------------+
+| NULL       |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
+| 123.123    |
+| 1243.5     |
+| 24453.325  |
+| 243423.325 |
+| 243.325    |
++------------+
+Returned 100 row(s) in 0.18s
+Query: select col_2, id, col_1  from extest
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > +------------+----+-------+
+| col_2      | id | col_1 |
++------------+----+-------+
+| NULL       | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
+| 123.123    | 1  | true  |
+| 1243.5     | 2  | false |
+| 24453.325  | 3  | false |
+| 243423.325 | 4  | false |
+| 243.325    | 5  | true  |
++------------+----+-------+
+Returned 100 row(s) in 0.19s
+Query: select * from extest where col_1=true
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > +----+-------+---------+---------------------+--------------------+
+| id | col_1 | col_2   | col_3               | col_4              |
++----+-------+---------+---------------------+--------------------+
+| 1  | true  | NULL    | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 5  | true  | 243.325 | 1953-04-22 09:11:33 | salazaar           |
++----+-------+---------+---------------------+--------------------+
+Returned 40 row(s) in 0.20s
+Query: select * from extest where col_1=true and id=1
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > +----+-------+---------+---------------------+--------------------+
+| id | col_1 | col_2   | col_3               | col_4              |
++----+-------+---------+---------------------+--------------------+
+| 1  | true  | NULL    | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
+| 1  | true  | 123.123 | 2012-10-24 08:55:00 | voldemort, kkkk!!! |
++----+-------+---------+---------------------+--------------------+
+Returned 20 row(s) in 0.20s
+Query: select id,col_1 from extest where col_1=true or id=3
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > +----+-------+
+| id | col_1 |
++----+-------+
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
+| 1  | true  |
+| 3  | false |
+| 5  | true  |
++----+-------+
+Returned 60 row(s) in 0.20s
+Query: select id from extest where id > 0 group by id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > +----+
+| id |
++----+
+| 1  |
+| 2  |
+| 3  |
+| 4  |
+| 5  |
++----+
+Returned 5 row(s) in 0.38s
+Query: select * from extest where id > 1 order by id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > +----+-------+------------+-------------------------------+-------------------------+
+| id | col_1 | col_2      | col_3                         | col_4                   |
++----+-------+------------+-------------------------------+-------------------------+
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
++----+-------+------------+-------------------------------+-------------------------+
+Returned 80 row(s) in 0.21s
+Query: select * from extest where extest.id = extest.id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > +----+-------+------------+-------------------------------+-------------------------+
+| id | col_1 | col_2      | col_3                         | col_4                   |
++----+-------+------------+-------------------------------+-------------------------+
+| 1  | true  | NULL       | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
+| 1  | true  | 123.123    | 2012-10-24 08:55:00           | voldemort, kkkk!!!      |
+| 2  | false | 1243.5     | 2012-10-25 13:40:00           | severus                 |
+| 3  | false | 24453.325  | 2008-08-22 09:33:21.123000000 | grindlewald,sdfdfsd!@#@ |
+| 4  | false | 243423.325 | 2007-05-12 22:32:21.334540000 | dumbledore              |
+| 5  | true  | 243.325    | 1953-04-22 09:11:33           | salazaar                |
++----+-------+------------+-------------------------------+-------------------------+
+Returned 100 row(s) in 0.22s
+Query: select * from extest where extest.id = extest.col_2
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               > 
+Returned 0 row(s) in 0.18s
+Goodbye
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > 
+
+[localhost.localdomain:21000] > 

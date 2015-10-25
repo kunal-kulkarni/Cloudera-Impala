@@ -1,0 +1,43 @@
+// Added by Kunal Kulkarni
+// Graduate Student in Computer Science at The Ohio State University 2014
+// kulkarni.120@osu.edu
+// CSV Scan Node Operator in Cloudera Impala
+
+Handling of escape comma in CSV file:
+
+The code handles sucessfully escape comma characters in the csv file. For example if the file contains the string 
+'Ahoy\, Matey!', this is parsed and extracted as 'Ahoy, Matey!' and populated in the query result. This is achieved
+by first doing a 'find' operation on the initial extracted value to test whether it contains the escape character '\'
+. If present it is removed and replaced with ',' character. This result(Ahoy,) is appended using strcat with the 
+next extracted value ' Matey!' to produce 'Ahoy, Matey!' as a single string. This test is done for every extracted
+cell value frm the csv file to find whether it contains escapped character in it.
+
+
+
+Handling of particular columns in the select query, for example select col_1 from extest;
+
+This is achieved by first getting which col the user has queried for using j=mydesc->col_pos(); Now to pass the right
+matching value from the extracted values of csv files, the code iterates over the extracted values to find the correct
+matching value the user has queried for. The code shown below achieves this:
+  while( j > i)
+  {
+	getline(linestream,cell,',');
+	j--;
+  }
+  where i is the materialized_slots_ i.e. the column number the user has requested in the select query
+  
+  
+  
+Handling of number of rows in CSV file > 1024:
+
+The code had to carefully check if the current row batch was full, If yes it was commited and a new row batch is
+created. This new row batch had to be given memory using GetMemory. The challenge was to correcly call allocation
+of new memory and make the pointers uint8_t* tuple_row_mem, uint8_t* tuple_mem, Tuple* tuple correctly point to the
+position where the next row can be inserted successfully.
+
+
+
+Note: Output.txt contains the results when all the testcases were run on extest1.csv which contains escape character comma.
+I have also submitted extest2.csv which contains rows > 1024 on which test case 1 could be tested fully. But there 
+is no limitation that the test cases have to be run on these two submitted csv files only, Submitted these just for 
+testing convenience.

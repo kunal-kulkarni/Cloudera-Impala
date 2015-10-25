@@ -1,5 +1,5 @@
 
---  Modified by Kunal Kulkarni
+--  Added by Kunal Kulkarni
 --  Graduate Student in Computer Science at The Ohio State University 2014
 --  kulkarni.120@osu.edu
 --  Block Nested Loop Join Operator in Cloudera Impala

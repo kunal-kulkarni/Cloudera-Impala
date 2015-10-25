@@ -1,0 +1,1018 @@
+Starting Impala Shell without Kerberos authentication
+Connected to localhost.localdomain:21000
+Server version: impalad version 1.4.0-cdh5-INTERNAL DEBUG (build e801bd8c0d134e783c2313c7dd422a5ad06591af)
+Query: create table test_tab_one (id int, first_name string, last_name string, price float, married boolean, gpa double)
+[?1034hWelcome to the Impala shell. Press TAB twice to see a list of available commands.
+
+Copyright (c) 2012 Cloudera, Inc. All rights reserved.
+
+(Shell build version: Impala Shell v1.4.0-cdh5-INTERNAL (e801bd8) built on Thu Aug 21 20:57:25 PDT 2014)
+[localhost.localdomain:21000] >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               >                               > 
+Returned 0 row(s) in 0.37s
+Query: insert into test_tab_one (id,first_name,last_name,price,married,gpa) values (11,"rahul","kumar",NULL,true,3.31), (6,"anish","patil",3.45,true,3.69), (19,"arvind","shankar",NULL,false,3.88), (NULL,"kiran","pai",NULL,true,3.81), (8,"rahul","kumar",752.53,false,3.92)
+Inserted 5 rows in 1.68s
+Query: create table test_tab_two (s_id int, age int, f_name string, l_name string, s_price float, s_married boolean, s_gpa double)
+[localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.12s
+Query: insert into test_tab_two (s_id,age,f_name,l_name,s_price,s_married,s_gpa) values (6,34,"karant","shankar",42.2,true,3.92), (18,38,"kiran","kulkarni",NULL,true,3.31), (11,47,"anish","sriram",NULL,false,4.00), (NULL,53,"sachin","shankar",34.5,false,3.69), (19,NULL,"anish","shankar",34.5,false,3.69)
+Inserted 5 rows in 1.75s
+Query: create table test_tab_three (t_id int, t_name string,t_gpa double)
+[localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.11s
+Query: insert into test_tab_three (t_id,t_name,t_gpa) values (11,"raghav",3.31),(19,"kiran",3.69),(NULL,"suhas",3.72)
+Inserted 3 rows in 1.63s
+Query: create table empty_table (id int)
+[localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > 
+Returned 0 row(s) in 0.09s
+Query: select * from test_tab_one
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > +------+------------+-----------+-------------------+---------+------+
+| id   | first_name | last_name | price             | married | gpa  |
++------+------------+-----------+-------------------+---------+------+
+| 11   | rahul      | kumar     | NULL              | true    | 3.31 |
+| 6    | anish      | patil     | 3.450000047683716 | true    | 3.69 |
+| 19   | arvind     | shankar   | NULL              | false   | 3.88 |
+| NULL | kiran      | pai       | NULL              | true    | 3.81 |
+| 8    | rahul      | kumar     | 752.530029296875  | false   | 3.92 |
++------+------------+-----------+-------------------+---------+------+
+Returned 5 row(s) in 0.31s
+Query: select * from test_tab_two
+[localhost.localdomain:21000] > +------+------+--------+----------+-------------------+-----------+-------+
+| s_id | age  | f_name | l_name   | s_price           | s_married | s_gpa |
++------+------+--------+----------+-------------------+-----------+-------+
+| 6    | 34   | karant | shankar  | 42.20000076293945 | true      | 3.92  |
+| 18   | 38   | kiran  | kulkarni | NULL              | true      | 3.31  |
+| 11   | 47   | anish  | sriram   | NULL              | false     | 4     |
+| NULL | 53   | sachin | shankar  | 34.5              | false     | 3.69  |
+| 19   | NULL | anish  | shankar  | 34.5              | false     | 3.69  |
++------+------+--------+----------+-------------------+-----------+-------+
+Returned 5 row(s) in 0.33s
+Query: select * from test_tab_three
+[localhost.localdomain:21000] > +------+--------+-------+
+| t_id | t_name | t_gpa |
++------+--------+-------+
+| 11   | raghav | 3.31  |
+| 19   | kiran  | 3.69  |
+| NULL | suhas  | 3.72  |
++------+--------+-------+
+Returned 3 row(s) in 0.36s
+Query: select * from empty_table
+[localhost.localdomain:21000] > 
+Returned 0 row(s) in 1.25s
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.03GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = test_tab_two.s_id                            |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.02s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| id | first_name | last_name | price             | married | gpa  | s_id | age  | f_name | l_name  | s_price           | s_married | s_gpa |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| 11 | rahul      | kumar     | NULL              | true    | 3.31 | 11   | 47   | anish  | sriram  | NULL              | false     | 4     |
+| 6  | anish      | patil     | 3.450000047683716 | true    | 3.69 | 6    | 34   | karant | shankar | 42.20000076293945 | true      | 3.92  |
+| 19 | arvind     | shankar   | NULL              | false   | 3.88 | 19   | NULL | anish  | shankar | 34.5              | false     | 3.69  |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+Returned 3 row(s) in 0.50s
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = test_tab_two.s_id                                 |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.02s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| id | first_name | last_name | price             | married | gpa  | s_id | age  | f_name | l_name  | s_price           | s_married | s_gpa |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| 11 | rahul      | kumar     | NULL              | true    | 3.31 | 11   | 47   | anish  | sriram  | NULL              | false     | 4     |
+| 6  | anish      | patil     | 3.450000047683716 | true    | 3.69 | 6    | 34   | karant | shankar | 42.20000076293945 | true      | 3.92  |
+| 19 | arvind     | shankar   | NULL              | false   | 3.88 | 19   | NULL | anish  | shankar | 34.5              | false     | 3.69  |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+Returned 3 row(s) in 0.37s
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.f_name
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.03GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.first_name = test_tab_two.f_name                  |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.f_name
+[localhost.localdomain:21000] > +------+------------+-----------+-------------------+---------+------+------+------+--------+----------+---------+-----------+-------+
+| id   | first_name | last_name | price             | married | gpa  | s_id | age  | f_name | l_name   | s_price | s_married | s_gpa |
++------+------------+-----------+-------------------+---------+------+------+------+--------+----------+---------+-----------+-------+
+| 6    | anish      | patil     | 3.450000047683716 | true    | 3.69 | 19   | NULL | anish  | shankar  | 34.5    | false     | 3.69  |
+| 6    | anish      | patil     | 3.450000047683716 | true    | 3.69 | 11   | 47   | anish  | sriram   | NULL    | false     | 4     |
+| NULL | kiran      | pai       | NULL              | true    | 3.81 | 18   | 38   | kiran  | kulkarni | NULL    | true      | 3.31  |
++------+------------+-----------+-------------------+---------+------+------+------+--------+----------+---------+-----------+-------+
+Returned 3 row(s) in 0.39s
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.f_name
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.first_name = test_tab_two.f_name                       |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.02s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.f_name
+[localhost.localdomain:21000] > +------+------------+-----------+-------------------+---------+------+------+------+--------+----------+---------+-----------+-------+
+| id   | first_name | last_name | price             | married | gpa  | s_id | age  | f_name | l_name   | s_price | s_married | s_gpa |
++------+------------+-----------+-------------------+---------+------+------+------+--------+----------+---------+-----------+-------+
+| 6    | anish      | patil     | 3.450000047683716 | true    | 3.69 | 11   | 47   | anish  | sriram   | NULL    | false     | 4     |
+| 6    | anish      | patil     | 3.450000047683716 | true    | 3.69 | 19   | NULL | anish  | shankar  | 34.5    | false     | 3.69  |
+| NULL | kiran      | pai       | NULL              | true    | 3.81 | 18   | 38   | kiran  | kulkarni | NULL    | true      | 3.31  |
++------+------------+-----------+-------------------+---------+------+------+------+--------+----------+---------+-----------+-------+
+Returned 3 row(s) in 0.38s
+ENABLE_CUSTOM_OP set to false
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.price = test_tab_two.s_price
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.03GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.price = test_tab_two.s_price                      |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.price = test_tab_two.s_price
+[localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.35s
+ENABLE_CUSTOM_OP set to true
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.price = test_tab_two.s_price
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.price = test_tab_two.s_price                           |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.price = test_tab_two.s_price
+[localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.34s
+ENABLE_CUSTOM_OP set to false
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one join test_tab_two on test_tab_one.married = test_tab_two.s_married
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.03GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.married = test_tab_two.s_married                  |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one join test_tab_two on test_tab_one.married = test_tab_two.s_married
+[localhost.localdomain:21000] > +------+------+---------+-----------+
+| id   | s_id | married | s_married |
++------+------+---------+-----------+
+| 11   | 18   | true    | true      |
+| 11   | 6    | true    | true      |
+| 6    | 18   | true    | true      |
+| 6    | 6    | true    | true      |
+| 19   | 19   | false   | false     |
+| 19   | NULL | false   | false     |
+| 19   | 11   | false   | false     |
+| NULL | 18   | true    | true      |
+| NULL | 6    | true    | true      |
+| 8    | 19   | false   | false     |
+| 8    | NULL | false   | false     |
+| 8    | 11   | false   | false     |
++------+------+---------+-----------+
+Returned 12 row(s) in 0.36s
+ENABLE_CUSTOM_OP set to true
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one join test_tab_two on test_tab_one.married = test_tab_two.s_married
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.married = test_tab_two.s_married                       |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one join test_tab_two on test_tab_one.married = test_tab_two.s_married
+[localhost.localdomain:21000] > +------+------+---------+-----------+
+| id   | s_id | married | s_married |
++------+------+---------+-----------+
+| 11   | 6    | true    | true      |
+| 11   | 18   | true    | true      |
+| 6    | 6    | true    | true      |
+| 6    | 18   | true    | true      |
+| 19   | 11   | false   | false     |
+| 19   | NULL | false   | false     |
+| 19   | 19   | false   | false     |
+| NULL | 6    | true    | true      |
+| NULL | 18   | true    | true      |
+| 8    | 11   | false   | false     |
+| 8    | NULL | false   | false     |
+| 8    | 19   | false   | false     |
++------+------+---------+-----------+
+Returned 12 row(s) in 0.36s
+ENABLE_CUSTOM_OP set to false
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id, test_tab_one.gpa,test_tab_two.s_gpa, test_tab_three.t_gpa  from test_tab_one join test_tab_two on test_tab_one.gpa = test_tab_two.s_gpa join test_tab_three on test_tab_two.s_gpa = test_tab_three.t_gpa
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=4.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_three, default.test_tab_two                 |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 04:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_two.s_gpa = test_tab_three.t_gpa                      |
+| |                                                                                  |
+| |--06:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  02:SCAN HDFS [default.test_tab_three]                                           |
+| |     partitions=1/1 size=43B                                                      |
+| |                                                                                  |
+| 03:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.gpa = test_tab_two.s_gpa                          |
+| |                                                                                  |
+| |--05:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id, test_tab_one.gpa,test_tab_two.s_gpa, test_tab_three.t_gpa  from test_tab_one join test_tab_two on test_tab_one.gpa = test_tab_two.s_gpa join test_tab_three on test_tab_two.s_gpa = test_tab_three.t_gpa
+[localhost.localdomain:21000] > +----+------+------+------+-------+-------+
+| id | s_id | t_id | gpa  | s_gpa | t_gpa |
++----+------+------+------+-------+-------+
+| 11 | 18   | 11   | 3.31 | 3.31  | 3.31  |
+| 6  | 19   | 19   | 3.69 | 3.69  | 3.69  |
+| 6  | NULL | 19   | 3.69 | 3.69  | 3.69  |
++----+------+------+------+-------+-------+
+Returned 3 row(s) in 0.49s
+ENABLE_CUSTOM_OP set to true
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id, test_tab_one.gpa,test_tab_two.s_gpa, test_tab_three.t_gpa  from test_tab_one join test_tab_two on test_tab_one.gpa = test_tab_two.s_gpa join test_tab_three on test_tab_two.s_gpa = test_tab_three.t_gpa
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=4.09GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_three, default.test_tab_two                 |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 04:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_two.s_gpa = test_tab_three.t_gpa                           |
+| |                                                                                  |
+| |--06:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  02:SCAN HDFS [default.test_tab_three]                                           |
+| |     partitions=1/1 size=43B                                                      |
+| |                                                                                  |
+| 03:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.gpa = test_tab_two.s_gpa                               |
+| |                                                                                  |
+| |--05:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id, test_tab_one.gpa,test_tab_two.s_gpa, test_tab_three.t_gpa  from test_tab_one join test_tab_two on test_tab_one.gpa = test_tab_two.s_gpa join test_tab_three on test_tab_two.s_gpa = test_tab_three.t_gpa
+[localhost.localdomain:21000] > +----+------+------+------+-------+-------+
+| id | s_id | t_id | gpa  | s_gpa | t_gpa |
++----+------+------+------+-------+-------+
+| 11 | 18   | 11   | 3.31 | 3.31  | 3.31  |
+| 6  | NULL | 19   | 3.69 | 3.69  | 3.69  |
+| 6  | 19   | 19   | 3.69 | 3.69  | 3.69  |
++----+------+------+------+-------+-------+
+Returned 3 row(s) in 0.47s
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=4.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_three, default.test_tab_two                 |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 04:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_two.s_id = test_tab_three.t_id                        |
+| |                                                                                  |
+| |--06:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  02:SCAN HDFS [default.test_tab_three]                                           |
+| |     partitions=1/1 size=43B                                                      |
+| |                                                                                  |
+| 03:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = test_tab_two.s_id                            |
+| |                                                                                  |
+| |--05:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.02s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > +----+------------+-----------+-------+---------+------+------+------+--------+---------+---------+-----------+-------+------+--------+-------+
+| id | first_name | last_name | price | married | gpa  | s_id | age  | f_name | l_name  | s_price | s_married | s_gpa | t_id | t_name | t_gpa |
++----+------------+-----------+-------+---------+------+------+------+--------+---------+---------+-----------+-------+------+--------+-------+
+| 11 | rahul      | kumar     | NULL  | true    | 3.31 | 11   | 47   | anish  | sriram  | NULL    | false     | 4     | 11   | raghav | 3.31  |
+| 19 | arvind     | shankar   | NULL  | false   | 3.88 | 19   | NULL | anish  | shankar | 34.5    | false     | 3.69  | 19   | kiran  | 3.69  |
++----+------------+-----------+-------+---------+------+------+------+--------+---------+---------+-----------+-------+------+--------+-------+
+Returned 2 row(s) in 0.64s
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=4.09GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_three, default.test_tab_two                 |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 04:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_two.s_id = test_tab_three.t_id                             |
+| |                                                                                  |
+| |--06:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  02:SCAN HDFS [default.test_tab_three]                                           |
+| |     partitions=1/1 size=43B                                                      |
+| |                                                                                  |
+| 03:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = test_tab_two.s_id                                 |
+| |                                                                                  |
+| |--05:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.01s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > +----+------------+-----------+-------+---------+------+------+------+--------+---------+---------+-----------+-------+------+--------+-------+
+| id | first_name | last_name | price | married | gpa  | s_id | age  | f_name | l_name  | s_price | s_married | s_gpa | t_id | t_name | t_gpa |
++----+------------+-----------+-------+---------+------+------+------+--------+---------+---------+-----------+-------+------+--------+-------+
+| 11 | rahul      | kumar     | NULL  | true    | 3.31 | 11   | 47   | anish  | sriram  | NULL    | false     | 4     | 11   | raghav | 3.31  |
+| 19 | arvind     | shankar   | NULL  | false   | 3.88 | 19   | NULL | anish  | shankar | 34.5    | false     | 3.69  | 19   | kiran  | 3.69  |
++----+------------+-----------+-------+---------+------+------+------+--------+---------+---------+-----------+-------+------+--------+-------+
+Returned 2 row(s) in 0.48s
+ENABLE_CUSTOM_OP set to false
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=4.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_three, default.test_tab_two                 |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 04:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_two.s_id = test_tab_three.t_id                        |
+| |                                                                                  |
+| |--06:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  02:SCAN HDFS [default.test_tab_three]                                           |
+| |     partitions=1/1 size=43B                                                      |
+| |                                                                                  |
+| 03:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = test_tab_two.s_id                            |
+| |                                                                                  |
+| |--05:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > +----+------+------+
+| id | s_id | t_id |
++----+------+------+
+| 11 | 11   | 11   |
+| 19 | 19   | 19   |
++----+------+------+
+Returned 2 row(s) in 0.45s
+ENABLE_CUSTOM_OP set to true
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=4.09GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_three, default.test_tab_two                 |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 04:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_two.s_id = test_tab_three.t_id                             |
+| |                                                                                  |
+| |--06:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  02:SCAN HDFS [default.test_tab_three]                                           |
+| |     partitions=1/1 size=43B                                                      |
+| |                                                                                  |
+| 03:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = test_tab_two.s_id                                 |
+| |                                                                                  |
+| |--05:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_three.t_id  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id join test_tab_three on test_tab_two.s_id = test_tab_three.t_id
+[localhost.localdomain:21000] > +----+------+------+
+| id | s_id | t_id |
++----+------+------+
+| 11 | 11   | 11   |
+| 19 | 19   | 19   |
++----+------+------+
+Returned 2 row(s) in 0.33s
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.03GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = test_tab_two.s_id                            |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| id | first_name | last_name | price             | married | gpa  | s_id | age  | f_name | l_name  | s_price           | s_married | s_gpa |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| 11 | rahul      | kumar     | NULL              | true    | 3.31 | 11   | 47   | anish  | sriram  | NULL              | false     | 4     |
+| 6  | anish      | patil     | 3.450000047683716 | true    | 3.69 | 6    | 34   | karant | shankar | 42.20000076293945 | true      | 3.92  |
+| 19 | arvind     | shankar   | NULL              | false   | 3.88 | 19   | NULL | anish  | shankar | 34.5              | false     | 3.69  |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+Returned 3 row(s) in 0.44s
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = test_tab_two.s_id                                 |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| id | first_name | last_name | price             | married | gpa  | s_id | age  | f_name | l_name  | s_price           | s_married | s_gpa |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+| 11 | rahul      | kumar     | NULL              | true    | 3.31 | 11   | 47   | anish  | sriram  | NULL              | false     | 4     |
+| 6  | anish      | patil     | 3.450000047683716 | true    | 3.69 | 6    | 34   | karant | shankar | 42.20000076293945 | true      | 3.92  |
+| 19 | arvind     | shankar   | NULL              | false   | 3.88 | 19   | NULL | anish  | shankar | 34.5              | false     | 3.69  |
++----+------------+-----------+-------------------+---------+------+------+------+--------+---------+-------------------+-----------+-------+
+Returned 3 row(s) in 0.47s
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.f_name
+ERROR: AnalysisException: operands of type INT and STRING are not comparable: test_tab_one.id = test_tab_two.f_name
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.f_name
+ERROR: AnalysisException: operands of type INT and STRING are not comparable: test_tab_one.id = test_tab_two.f_name
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.f_name
+ERROR: AnalysisException: operands of type INT and STRING are not comparable: test_tab_one.id = test_tab_two.f_name
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.f_name
+ERROR: AnalysisException: operands of type INT and STRING are not comparable: test_tab_one.id = test_tab_two.f_name
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.s_gpa
+ERROR: AnalysisException: operands of type STRING and DOUBLE are not comparable: test_tab_one.first_name = test_tab_two.s_gpa
+Query: select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.s_gpa
+ERROR: AnalysisException: operands of type STRING and DOUBLE are not comparable: test_tab_one.first_name = test_tab_two.s_gpa
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.s_gpa
+ERROR: AnalysisException: operands of type STRING and DOUBLE are not comparable: test_tab_one.first_name = test_tab_two.s_gpa
+Query: select * from test_tab_one join test_tab_two on test_tab_one.first_name = test_tab_two.s_gpa
+ERROR: AnalysisException: operands of type STRING and DOUBLE are not comparable: test_tab_one.first_name = test_tab_two.s_gpa
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.age
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.03GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = test_tab_two.age                             |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.02s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.age
+[localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.39s
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.age
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = test_tab_two.age                                  |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select * from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.age
+[localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.47s
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join test_tab_one on test_tab_one.id = test_tab_one.id
+ERROR: AnalysisException: Duplicate table alias: 'default.test_tab_one'
+Query: select * from test_tab_one join test_tab_one on test_tab_one.id = test_tab_one.id
+ERROR: AnalysisException: Duplicate table alias: 'default.test_tab_one'
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join test_tab_one on test_tab_one.id = test_tab_one.id
+ERROR: AnalysisException: Duplicate table alias: 'default.test_tab_one'
+Query: select * from test_tab_one join test_tab_one on test_tab_one.id = test_tab_one.id
+ERROR: AnalysisException: Duplicate table alias: 'default.test_tab_one'
+ENABLE_CUSTOM_OP set to false
+Query: explain select test_tab_one.id,test_tab_two.s_id from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id GROUP BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.16GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 06:AGGREGATE [MERGE FINALIZE]                                                      |
+| |  group by: test_tab_one.id, test_tab_two.s_id                                    |
+| |                                                                                  |
+| 05:EXCHANGE [HASH(test_tab_one.id,test_tab_two.s_id)]                              |
+| |                                                                                  |
+| 03:AGGREGATE                                                                       |
+| |  group by: test_tab_one.id, test_tab_two.s_id                                    |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = test_tab_two.s_id                            |
+| |                                                                                  |
+| |--04:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id GROUP BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------+
+| id | s_id |
++----+------+
+| 19 | 19   |
+| 6  | 6    |
+| 11 | 11   |
++----+------+
+Returned 3 row(s) in 0.41s
+ENABLE_CUSTOM_OP set to true
+Query: explain select test_tab_one.id,test_tab_two.s_id from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id GROUP BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.19GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 07:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 06:AGGREGATE [MERGE FINALIZE]                                                      |
+| |  group by: test_tab_one.id, test_tab_two.s_id                                    |
+| |                                                                                  |
+| 05:EXCHANGE [HASH(test_tab_one.id,test_tab_two.s_id)]                              |
+| |                                                                                  |
+| 03:AGGREGATE                                                                       |
+| |  group by: test_tab_one.id, test_tab_two.s_id                                    |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = test_tab_two.s_id                                 |
+| |                                                                                  |
+| |--04:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 24 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id GROUP BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------+
+| id | s_id |
++----+------+
+| 19 | 19   |
+| 6  | 6    |
+| 11 | 11   |
++----+------+
+Returned 3 row(s) in 0.41s
+ENABLE_CUSTOM_OP set to false
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id ORDER BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.03GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 05:MERGING-EXCHANGE [UNPARTITIONED]                                                |
+| |  order by: id ASC, s_id ASC                                                      |
+| |                                                                                  |
+| 03:SORT                                                                            |
+| |  order by: id ASC, s_id ASC                                                      |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = test_tab_two.s_id                            |
+| |                                                                                  |
+| |--04:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 20 row(s) in 0.03s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id ORDER BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------+-------------------+-------------------+
+| id | s_id | price             | s_price           |
++----+------+-------------------+-------------------+
+| 6  | 6    | 3.450000047683716 | 42.20000076293945 |
+| 11 | 11   | NULL              | NULL              |
+| 19 | 19   | NULL              | 34.5              |
++----+------+-------------------+-------------------+
+Returned 3 row(s) in 0.36s
+ENABLE_CUSTOM_OP set to true
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id ORDER BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 05:MERGING-EXCHANGE [UNPARTITIONED]                                                |
+| |  order by: id ASC, s_id ASC                                                      |
+| |                                                                                  |
+| 03:SORT                                                                            |
+| |  order by: id ASC, s_id ASC                                                      |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = test_tab_two.s_id                                 |
+| |                                                                                  |
+| |--04:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 20 row(s) in 0.02s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.price,test_tab_two.s_price  from test_tab_one join test_tab_two on test_tab_one.id = test_tab_two.s_id ORDER BY test_tab_one.id, test_tab_two.s_id
+[localhost.localdomain:21000] > +----+------+-------------------+-------------------+
+| id | s_id | price             | s_price           |
++----+------+-------------------+-------------------+
+| 6  | 6    | 3.450000047683716 | 42.20000076293945 |
+| 11 | 11   | NULL              | NULL              |
+| 19 | 19   | NULL              | 34.5              |
++----+------+-------------------+-------------------+
+Returned 3 row(s) in 0.35s
+ENABLE_CUSTOM_OP set to false
+Query: explain select * from test_tab_one join empty_table on test_tab_one.id = empty_table.id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=32.00MB VCores=2                           |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.empty_table, default.test_tab_one                                          |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:HASH JOIN [INNER JOIN, BROADCAST]                                               |
+| |  hash predicates: test_tab_one.id = empty_table.id                               |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.empty_table]                                              |
+| |     partitions=1/1 size=0B                                                       |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select * from test_tab_one join empty_table on test_tab_one.id = empty_table.id
+[localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.36s
+ENABLE_CUSTOM_OP set to true
+Query: explain select * from test_tab_one join empty_table on test_tab_one.id = empty_table.id
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=32.00MB VCores=2                           |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.empty_table, default.test_tab_one                                          |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |  predicates: test_tab_one.id = empty_table.id                                    |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.empty_table]                                              |
+| |     partitions=1/1 size=0B                                                       |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 16 row(s) in 0.01s
+Query: select * from test_tab_one join empty_table on test_tab_one.id = empty_table.id
+[localhost.localdomain:21000] > 
+Returned 0 row(s) in 0.35s
+ENABLE_CUSTOM_OP set to false
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one cross join test_tab_two
+[localhost.localdomain:21000] >                               >                               >                               >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:CROSS JOIN [BROADCAST]                                                          |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 15 row(s) in 0.01s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one cross join test_tab_two
+[localhost.localdomain:21000] > +------+------+---------+-----------+
+| id   | s_id | married | s_married |
++------+------+---------+-----------+
+| 11   | 6    | true    | true      |
+| 11   | 18   | true    | true      |
+| 11   | 11   | true    | false     |
+| 11   | NULL | true    | false     |
+| 11   | 19   | true    | false     |
+| 6    | 6    | true    | true      |
+| 6    | 18   | true    | true      |
+| 6    | 11   | true    | false     |
+| 6    | NULL | true    | false     |
+| 6    | 19   | true    | false     |
+| 19   | 6    | false   | true      |
+| 19   | 18   | false   | true      |
+| 19   | 11   | false   | false     |
+| 19   | NULL | false   | false     |
+| 19   | 19   | false   | false     |
+| NULL | 6    | true    | true      |
+| NULL | 18   | true    | true      |
+| NULL | 11   | true    | false     |
+| NULL | NULL | true    | false     |
+| NULL | 19   | true    | false     |
+| 8    | 6    | false   | true      |
+| 8    | 18   | false   | true      |
+| 8    | 11   | false   | false     |
+| 8    | NULL | false   | false     |
+| 8    | 19   | false   | false     |
++------+------+---------+-----------+
+Returned 25 row(s) in 0.34s
+ENABLE_CUSTOM_OP set to true
+Query: explain select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one cross join test_tab_two
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > [localhost.localdomain:21000] > +------------------------------------------------------------------------------------+
+| Explain String                                                                     |
++------------------------------------------------------------------------------------+
+| Estimated Per-Host Requirements: Memory=2.06GB VCores=2                            |
+| WARNING: The following tables are missing relevant table and/or column statistics. |
+| default.test_tab_one, default.test_tab_two                                         |
+|                                                                                    |
+| 04:EXCHANGE [UNPARTITIONED]                                                        |
+| |                                                                                  |
+| 02:NESTED LOOP JOIN [BROADCAST]                                                    |
+| |                                                                                  |
+| |--03:EXCHANGE [BROADCAST]                                                         |
+| |  |                                                                               |
+| |  01:SCAN HDFS [default.test_tab_two]                                             |
+| |     partitions=1/1 size=185B                                                     |
+| |                                                                                  |
+| 00:SCAN HDFS [default.test_tab_one]                                                |
+|    partitions=1/1 size=170B                                                        |
++------------------------------------------------------------------------------------+
+Returned 15 row(s) in 0.01s
+Query: select test_tab_one.id,test_tab_two.s_id, test_tab_one.married,test_tab_two.s_married  from test_tab_one cross join test_tab_two
+[localhost.localdomain:21000] > +------+------+---------+-----------+
+| id   | s_id | married | s_married |
++------+------+---------+-----------+
+| 11   | 6    | true    | true      |
+| 11   | 18   | true    | true      |
+| 11   | 11   | true    | false     |
+| 11   | NULL | true    | false     |
+| 11   | 19   | true    | false     |
+| 6    | 6    | true    | true      |
+| 6    | 18   | true    | true      |
+| 6    | 11   | true    | false     |
+| 6    | NULL | true    | false     |
+| 6    | 19   | true    | false     |
+| 19   | 6    | false   | true      |
+| 19   | 18   | false   | true      |
+| 19   | 11   | false   | false     |
+| 19   | NULL | false   | false     |
+| 19   | 19   | false   | false     |
+| NULL | 6    | true    | true      |
+| NULL | 18   | true    | true      |
+| NULL | 11   | true    | false     |
+| NULL | NULL | true    | false     |
+| NULL | 19   | true    | false     |
+| 8    | 6    | false   | true      |
+| 8    | 18   | false   | true      |
+| 8    | 11   | false   | false     |
+| 8    | NULL | false   | false     |
+| 8    | 19   | false   | false     |
++------+------+---------+-----------+
+Returned 25 row(s) in 0.34s
+Goodbye
+[localhost.localdomain:21000] > [localhost.localdomain:21000] >                               > 
+
+[localhost.localdomain:21000] > 
